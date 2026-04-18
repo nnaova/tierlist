@@ -1,13 +1,34 @@
 <script>
   import TierList from './components/TierList.svelte';
   import Pool from './components/Pool.svelte';
+  import { exportToPng } from './utils/export.js';
+
+  let tierListEl;
+  let exporting = false;
+
+  async function handleExport() {
+    if (!tierListEl || exporting) return;
+    exporting = true;
+    try {
+      await exportToPng(tierListEl, 'tierlist.png');
+    } finally {
+      exporting = false;
+    }
+  }
 </script>
 
 <main>
   <header>
     <h1>Tierlist</h1>
+    <button class="export-btn" on:click={handleExport} disabled={exporting}>
+      {exporting ? 'Export...' : '⬇ Exporter PNG'}
+    </button>
   </header>
-  <TierList />
+
+  <div bind:this={tierListEl}>
+    <TierList />
+  </div>
+
   <Pool />
 </main>
 
@@ -41,5 +62,26 @@
   h1 {
     font-size: 1.5rem;
     color: #fff;
+  }
+
+  .export-btn {
+    padding: 8px 18px;
+    background: #4488ff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .export-btn:hover:not(:disabled) {
+    background: #5599ff;
+  }
+
+  .export-btn:disabled {
+    opacity: 0.6;
+    cursor: default;
   }
 </style>
