@@ -8,6 +8,7 @@
   let editing = false;
   let inputEl;
   let draft = label;
+  $: if (!editing) draft = label;
 
   function startEdit() {
     draft = label;
