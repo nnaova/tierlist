@@ -1,0 +1,49 @@
+<script>
+  import { pool, poolActions } from '../stores.js';
+  import ItemGrid from './ItemGrid.svelte';
+
+  function handleChange(newItems) {
+    poolActions.setItems(newItems);
+  }
+</script>
+
+<section class="pool">
+  <div class="pool-header">
+    <span>Images non classées</span>
+    <span class="count">{$pool.length}</span>
+  </div>
+  <div class="pool-content">
+    <ItemGrid items={$pool} onChange={handleChange} />
+  </div>
+</section>
+
+<style>
+  .pool {
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1rem;
+  }
+
+  .pool-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #222;
+    font-size: 0.85rem;
+    color: #aaa;
+  }
+
+  .count {
+    background: #333;
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 0.75rem;
+  }
+
+  .pool-content {
+    background: #1e1e1e;
+    min-height: 96px;
+  }
+</style>

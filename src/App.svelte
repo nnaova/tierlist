@@ -1,5 +1,6 @@
 <script>
   import TierList from './components/TierList.svelte';
+  import Pool from './components/Pool.svelte';
 </script>
 
 <main>
@@ -7,6 +8,7 @@
     <h1>Tierlist</h1>
   </header>
   <TierList />
+  <Pool />
 </main>
 
 <style>
