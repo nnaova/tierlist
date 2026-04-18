@@ -1,8 +1,12 @@
 <script>
+  import TierList from './components/TierList.svelte';
 </script>
 
 <main>
-  <h1>Tierlist</h1>
+  <header>
+    <h1>Tierlist</h1>
+  </header>
+  <TierList />
 </main>
 
 <style>
@@ -25,9 +29,15 @@
     padding: 2rem 1rem;
   }
 
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
   h1 {
     font-size: 1.5rem;
-    margin-bottom: 1.5rem;
     color: #fff;
   }
 </style>
