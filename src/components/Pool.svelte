@@ -1,6 +1,7 @@
 <script>
   import { pool, poolActions } from '../stores.js';
   import ItemGrid from './ItemGrid.svelte';
+  import ImageImporter from './ImageImporter.svelte';
 
   function handleChange(newItems) {
     poolActions.setItems(newItems);
@@ -10,7 +11,10 @@
 <section class="pool">
   <div class="pool-header">
     <span>Images non classées</span>
-    <span class="count">{$pool.length}</span>
+    <div class="pool-header-right">
+      <span class="count">{$pool.length}</span>
+      <ImageImporter />
+    </div>
   </div>
   <div class="pool-content">
     <ItemGrid items={$pool} onChange={handleChange} />
@@ -33,6 +37,12 @@
     background: #222;
     font-size: 0.85rem;
     color: #aaa;
+  }
+
+  .pool-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 
   .count {
