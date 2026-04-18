@@ -31,7 +31,7 @@
 
   .pool-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 8px 12px;
     background: #222;
@@ -41,7 +41,7 @@
 
   .pool-header-right {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
   }
 

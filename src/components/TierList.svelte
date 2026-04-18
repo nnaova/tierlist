@@ -3,18 +3,7 @@
   import TierRow from './TierRow.svelte';
   import { tiers, tierActions } from '../stores.js';
 
-  // Pour le drag handle, on désactive le drag par défaut
-  // et on l'active seulement quand la souris est sur la poignée
-  let dragDisabledMap = {};
-
-  $: {
-    // Initialise dragDisabledMap pour les nouveaux tiers
-    $tiers.forEach(t => {
-      if (dragDisabledMap[t.id] === undefined) {
-        dragDisabledMap[t.id] = true;
-      }
-    });
-  }
+  let dragDisabled = true;
 
   function handleConsider(e) {
     tierActions.reorder(e.detail.items);
@@ -22,44 +11,29 @@
 
   function handleFinalize(e) {
     tierActions.reorder(e.detail.items);
-    // Réactiver dragDisabled pour tous les tiers après drop
-    dragDisabledMap = Object.fromEntries(
-      e.detail.items.map(t => [t.id, true])
-    );
-  }
-
-  function startDrag(tierId) {
-    dragDisabledMap = { ...dragDisabledMap, [tierId]: false };
-  }
-
-  function stopDrag(tierId) {
-    dragDisabledMap = { ...dragDisabledMap, [tierId]: true };
+    dragDisabled = true;
   }
 </script>
 
 <div id="tier-list">
   <div
+    role="list"
     class="tiers-container"
     use:dndzone={{
       items: $tiers,
       type: 'tier',
-      dragDisabled: Object.values(dragDisabledMap).every(Boolean),
+      dragDisabled,
       dropTargetStyle: {},
     }}
     on:consider={handleConsider}
     on:finalize={handleFinalize}
   >
     {#each $tiers as tier (tier.id)}
-      <div
-        class="tier-wrapper"
-        on:mousedown={(e) => {
-          // Activer le drag seulement si on clique sur .handle
-          if (e.target.closest('.handle')) startDrag(tier.id);
-        }}
-        on:mouseup={() => stopDrag(tier.id)}
-        on:mouseleave={() => stopDrag(tier.id)}
-      >
-        <TierRow {tier} />
+      <div role="listitem" class="tier-wrapper">
+        <TierRow {tier}
+          onHandleEnter={() => { dragDisabled = false; }}
+          onHandleLeave={() => { dragDisabled = true; }}
+        />
       </div>
     {/each}
   </div>

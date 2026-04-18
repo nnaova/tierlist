@@ -87,6 +87,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="overlay" on:click|self={onCancel}>
   <div class="modal">
     <h2>Recadrer l'image</h2>

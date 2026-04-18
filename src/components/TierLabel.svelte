@@ -1,9 +1,11 @@
 <script>
   export let label = '';
   export let color = '#888888';
-  export let onRename;   // (newLabel: string) => void
+  export let onRename;      // (newLabel: string) => void
   export let onColorChange; // (newColor: string) => void
-  export let onDelete;  // () => void
+  export let onDelete;      // () => void
+  export let onHandleEnter = () => {};
+  export let onHandleLeave = () => {};
 
   let editing = false;
   let inputEl;
@@ -36,7 +38,7 @@
 
 <div class="label" style="background: {color};">
   <!-- Poignée de drag -->
-  <span class="handle" title="Déplacer">⠿</span>
+  <span class="handle" title="Déplacer" on:mouseenter={onHandleEnter} on:mouseleave={onHandleLeave}>⠿</span>
 
   <!-- Label éditable -->
   {#if editing}
@@ -49,9 +51,14 @@
       maxlength="10"
     />
   {:else}
-    <span class="label-text" on:click={startEdit} title="Cliquer pour renommer">
-      {label}
-    </span>
+    <span
+      class="label-text"
+      role="button"
+      tabindex="0"
+      on:click={startEdit}
+      on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && startEdit()}
+      title="Cliquer pour renommer"
+    >{label}</span>
   {/if}
 
   <!-- Controls -->

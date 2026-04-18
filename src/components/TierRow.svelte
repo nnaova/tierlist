@@ -4,6 +4,8 @@
   import { tierActions } from '../stores.js';
 
   export let tier;
+  export let onHandleEnter = () => {};
+  export let onHandleLeave = () => {};
 
   function handleRename(newLabel) {
     tierActions.rename(tier.id, newLabel);
@@ -29,6 +31,8 @@
     onRename={handleRename}
     onColorChange={handleColorChange}
     onDelete={handleDelete}
+    {onHandleEnter}
+    {onHandleLeave}
   />
   <ItemGrid items={tier.items} onChange={handleItemsChange} />
 </div>
